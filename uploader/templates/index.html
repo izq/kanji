@@ -1,0 +1,142 @@
+{% load static %}
+{% load qr_code %}
+<!-- Design: neku. Thx -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Temp file hosting, Up to 100MB for 24 hours.">
+    <title>Kanji &middot; Temp File Hosting</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/ie.css' %}"  media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    <script>
+        $( document ).ready(function(){
+            $(".button-collapse").sideNav();
+        })
+    </script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper blue-grey darken-1">
+            <div class="container">
+                <div class="col s12">
+                    <a href="/" class="brand-logo">Kanji &middot; Temp File Hosting</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="/info">Info</a></li>
+			<li><a href="https://github.com/izq/kanji">Github</a></li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li><a href="/info">Info</a></li>
+			<li><a href="https://github.com/izq/kanji">Github</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+{%if uploaded_file_url %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card-panel blue-grey darken-1">
+                <div id="qr-container" class="card-content white-text">
+                    <span class="card-title" style="color: #00FF99"><h3>File uploaded!</h3></span>
+                        <p><a href={{ uploaded_file_url }}>{{uploaded_file_url}}</a></p>
+                        <p>Your file will be available for download during 24 hours.</p>
+                        {% qr_from_text uploaded_file_url size="t" image_format="png" error_correction="L" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% elif errors %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card-panel blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title" style="color: #FF9999"><h3>Error!</h3></span>
+                    {% for fieldname, message in errors.items %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% elif info %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card-panel blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Info</span>
+            <p>Image/video containing underage sexual content is NOT allowed, if you see this kind of content on Uguu please report it to izq@undefined.</p>
+                    <p>Uguu is not affiliated with the files users upload, if reported they will get deleted.</p>
+                    <p>Store (*almost) any filetype with a size up to 100MB for up to 24 hours.</p>
+                    Kanji cares about your privacy and stores NO logs.</p>
+                    <p>*Due to malicious files being uploaded some types of files are not allowed to be uploaded such as HTML or certain applications.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <form class="col s12" action="/" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+            <div class="file-field input-field">
+                <input class="file-path validate" type="text" readonly="readonly"/>
+                    <div class="btn ie-btn-fix">
+                        <span>File</span>
+                        <input id="file" type="file" name="file" />
+                    </div>
+                </div>
+
+                <p>
+                    <input type="checkbox" id="randomname" name="randomname" />
+                    <label for="randomname">Generate random filename</label>
+                </p>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="customname" type="text" name="customname" maxlength=50>
+                        <label for="customname">Custom filename, e.g cat.flac (optional)</label>
+                    </div>
+                </div>
+
+                <button class="btn waves-effect waves-light" type="submit">Upload
+                    <i class="mdi-content-send right"></i>
+                </button>
+            </div>
+    </form>
+</div>
+{% endif %}
+    <footer class="page-footer blue-grey darken-1" style="position: absolute; bottom: 0; width: 100%">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                <h5 class="white-text">What is Kanji?</h5>
+                    <p class="grey-text text-lighten-4">Kanji lets you store file(s) up to 100MB for 24 hours.</p>
+		</div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Contact & Abuse</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="https://github.com/izq">@izq</a></li>
+                        <li><a class="grey-text text-lighten-3" href="mailto:izq@undefined">izq@undefined<a class="grey-text text-lighten-3" href="/key.asc"> (PGP)</a></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
