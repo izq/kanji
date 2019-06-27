@@ -1,5 +1,5 @@
 # Kanji
-Simple file uploading and sharing website, powered by Django
+Simple temporary file hosting solution, powered by Django
 
 ## Installation
 
@@ -9,14 +9,18 @@ First install the dependencies:
 ```bash
 sudo pip3 install django django-qr-code python-magic
 ```
-Then run the server:
+Start the server:
 ```bash
 git clone https://github.com/izq/kanji.git
 unzip kanji.git
 cd kanji
+python3 manage.py migrate --run-syncdb
 python3 manage.py runserver
 ```
-
+And setup a cron job (_crontab -e_) to delete files older than 24 hours :
+```bash
+*/5 * * * * root /home/izq/kanji/check.sh
+```
 ## Configuration
 Most of the variables you may want to customize are located in _/kanji/settings.py_
 ```python
