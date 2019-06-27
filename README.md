@@ -19,7 +19,7 @@ cd kanji
 python3 manage.py migrate --run-syncdb
 python3 manage.py runserver
 ```
-And setup a cron job (_crontab -e_) to delete files older than 24 hours :
+And setup a cron job (_crontab -e_) to delete uploaded files older than 24 hours :
 ```bash
 */5 * * * * root /home/izq/kanji/check.sh
 ```
