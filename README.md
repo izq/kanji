@@ -33,3 +33,6 @@ WEBSITE_ROOT = "http://127.0.0.1:8000"
 **_MAX_SIZE_** is the maximum file size, i.e 100MB.
 
 **_WEBSITE_ROOT_** is the domain name used to generate the URL that is returned to the user.
+
+## Screenshot
+<img src="https://raw.githubusercontent.com/izq/kanji/master/screenshot.png" width="1500px"></img> 
